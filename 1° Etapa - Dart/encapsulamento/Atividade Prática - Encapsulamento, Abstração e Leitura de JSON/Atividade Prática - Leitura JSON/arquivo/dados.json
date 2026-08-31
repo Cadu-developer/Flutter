@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "titulo": "Coringa",
+    "avaliacoes": [5.0, 4.0, 4.5]
+  },
+  {
+    "id": 2,
+    "titulo": "Batman",
+    "avaliacoes": [3.0, 3.5]
+  }
+]

@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function autenticado() {
+      return request.auth != null;
+    }
+
+    match /publicacoes/{publicacaoId} {
+      allow read: if autenticado();
+      allow create: if autenticado()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.texto is string
+        && request.resource.data.nome is string;
+      allow update, delete: if autenticado()
+        && resource.data.uid == request.auth.uid;
+
+      match /comentarios/{comentarioId} {
+        allow read: if autenticado();
+        allow create: if autenticado()
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.publicacaoId == publicacaoId
+          && request.resource.data.texto is string
+          && request.resource.data.nome is string;
+        allow delete: if autenticado()
+          && resource.data.uid == request.auth.uid;
+        allow update: if false;
+      }
+    }
+  }
+}
